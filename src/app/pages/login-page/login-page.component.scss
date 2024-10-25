@@ -1,21 +1,21 @@
 :host {
+  display: grid;
+  padding: 20px;
+  align-items: center;
+  height: 100dvh;
+
+  .login-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-form {
     display: grid;
-    padding: 20px;
-    align-items: center;
-    height: 100dvh;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
 
-    .login-page {
-        display: flex;
-        flex-direction: column;
+    button {
+      width: auto;
     }
-
-    .login-form {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-gap: 10px;
-
-        button {
-            width: auto;
-        }
-    }
+  }
 }

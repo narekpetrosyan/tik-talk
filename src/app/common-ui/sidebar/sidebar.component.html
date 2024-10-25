@@ -1,1 +1,24 @@
-<p>sidebar works!</p>
+<div class="sidebar__wrapper">
+  <a [routerLink]="['']">Home</a>
+  <a [routerLink]="['/search']">Search</a>
+</div>
+
+@for (subscriber of subscribers$ | async; track subscriber.id) {
+  <app-subscriber-card [subscriber]="subscriber" />
+}
+
+<div>
+  <a [routerLink]="['/subscribers']">To subscribers</a>
+</div>
+
+@if (me(); as me) {
+  <div>
+    @if (me.avatarUrl) {
+      <img
+        class="subscriber-avatar"
+        [src]="me.avatarUrl | imgUrl"
+        [alt]="me.firstName" />
+    }
+    <strong class="subtitle">{{ me.username }}</strong>
+  </div>
+}

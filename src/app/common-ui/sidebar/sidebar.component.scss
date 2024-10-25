@@ -1,0 +1,10 @@
+:host {
+    padding: 20px;
+    border-right: 1px solid var(--light-color);
+
+    .sidebar__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+}

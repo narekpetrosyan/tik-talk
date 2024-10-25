@@ -1,7 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
-import { from, map, take } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,30 +13,30 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login-page.component.html',
-  styleUrl: './login-page.component.scss'
+  styleUrl: './login-page.component.scss',
 })
 export class LoginPageComponent {
-  authService = inject(AuthService)
-  router = inject(Router)
+  authService = inject(AuthService);
+  router = inject(Router);
 
-  isPasswordVisible = signal(false)
+  isPasswordVisible = signal(false);
 
   form = new FormGroup({
     username: new FormControl(null, Validators.required),
     password: new FormControl(null, Validators.required),
-  })
+  });
 
   onSubmit() {
     if (this.form.valid) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      this.authService.login(this.form.value).subscribe(value => {
-        this.router.navigate([''])
-      })
+      this.authService.login(this.form.value).subscribe(() => {
+        this.router.navigate(['']);
+      });
     }
-    
   }
 
   togglePassword() {
-    this.isPasswordVisible.set(!this.isPasswordVisible())
+    this.isPasswordVisible.set(!this.isPasswordVisible());
   }
 }
