@@ -29,4 +29,10 @@ export class ProfileService {
       .get<Profile>(this.baseApiUrl + '/account/me')
       .pipe(tap(val => this.me.set(val)));
   }
+
+  getAccount(id: string) {
+    return this.http
+      .get<Profile>(`${this.baseApiUrl}/account/${id}`)
+      .pipe(tap(val => this.me.set(val)));
+  }
 }

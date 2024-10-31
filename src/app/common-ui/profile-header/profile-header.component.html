@@ -1,0 +1,8 @@
+@if (profile(); as profile) {
+  <img [src]="profile.avatarUrl | imgUrl" alt="" />
+
+  <div class="profile-card__name">
+    <p>{{ profile.firstName }} {{ profile.lastName }}</p>
+    <p>{{ profile.username }}</p>
+  </div>
+}
