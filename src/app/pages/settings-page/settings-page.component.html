@@ -1,0 +1,31 @@
+<!--<app-profile-header [profile]="profile"> </app-profile-header>-->
+
+<form class="profile-form" [formGroup]="form">
+  <div class="two-columns">
+    <label for="firstName">
+      First Name
+      <input type="text" id="firstName" formControlName="firstName" />
+    </label>
+    <label for="lastName">
+      Last Name
+      <input type="text" id="lastName" formControlName="lastName" />
+    </label>
+  </div>
+
+  <label for="username">
+    Username
+    <input type="text" id="username" formControlName="username" />
+  </label>
+
+  <label for="about">
+    About me
+    <textarea type="text" id="about" formControlName="description"></textarea>
+  </label>
+
+  <label for="stack">
+    Stack
+    <input type="text" id="stack" formControlName="stack" />
+  </label>
+
+  <button type="submit" (click)="onSave()">Edit</button>
+</form>

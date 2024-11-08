@@ -10,13 +10,14 @@
       <h3>Subscribers {{ profile.subscribersAmount }}</h3>
       <div>
         @for (subscriber of subscribers$ | async; track subscriber.id) {
-          <a [routerLink]="['/search']">
+          <a [routerLink]="['/profile', subscriber.id]">
             <img
               class="subscriber-avatar"
               [src]="subscriber.avatarUrl | imgUrl"
               [alt]="subscriber.firstName" />
           </a>
         }
+        <a [routerLink]="['/search']"> Search </a>
       </div>
     </div>
 

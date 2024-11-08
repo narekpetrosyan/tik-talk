@@ -13,6 +13,7 @@ export class ProfileService {
   baseApiUrl = 'https://icherniakov.ru/yt-course';
 
   me = signal<Profile | null>(null);
+  searchProfiles = signal<Profile[]>([]);
 
   getTestAccounts() {
     return this.http.get<Profile[]>(this.baseApiUrl + '/account/test_accounts');
@@ -34,5 +35,19 @@ export class ProfileService {
     return this.http
       .get<Profile>(`${this.baseApiUrl}/account/${id}`)
       .pipe(tap(val => this.me.set(val)));
+  }
+
+  patchProfile(profile: Partial<Profile>) {
+    return this.http.patch(this.baseApiUrl + '/account/me', profile);
+  }
+
+  filterProfiles(params: Record<string, any>) {
+    return this.http
+      .get<Pagable<Profile>>(this.baseApiUrl + '/account/accounts', { params })
+      .pipe(
+        tap(val => {
+          this.searchProfiles.set(val.items);
+        })
+      );
   }
 }

@@ -1,6 +1,7 @@
 <div class="sidebar__wrapper">
   <a [routerLink]="['']">Home</a>
-  <a [routerLink]="['/search']">Search</a>
+  <a [routerLink]="['/profile/me']" routerLinkActive="active">My page</a>
+  <a [routerLink]="['/search']" routerLinkActive="active">Search</a>
 </div>
 
 @for (subscriber of subscribers$ | async; track subscriber.id) {

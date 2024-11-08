@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { ProfileService } from '../../data/services/profile.service';
 import { SubscriberCardComponent } from './subscriber-card/subscriber-card.component';
 import { AsyncPipe } from '@angular/common';
@@ -9,7 +9,13 @@ import { ImgUrlPipe } from '../../helpers/pipes/img-url.pipe';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, SubscriberCardComponent, AsyncPipe, ImgUrlPipe],
+  imports: [
+    RouterLink,
+    SubscriberCardComponent,
+    AsyncPipe,
+    ImgUrlPipe,
+    RouterLinkActive,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })

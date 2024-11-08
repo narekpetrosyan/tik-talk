@@ -5,9 +5,16 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
-import { catchError, switchMap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  filter,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 
-let isRefreshing = false;
+const isRefreshing$ = new BehaviorSubject<boolean>(false);
 
 export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
@@ -17,7 +24,7 @@ export const authTokenInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  if (isRefreshing) {
+  if (isRefreshing$.value) {
     return refreshAndProceed(authService, req, next);
   }
 
@@ -42,27 +49,54 @@ const refreshAndProceed = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) => {
-  if (!isRefreshing) {
-    isRefreshing = true;
+  if (!isRefreshing$.value) {
+    isRefreshing$.next(true);
     return authService.refresh().pipe(
       switchMap(({ access_token }) => {
-        isRefreshing = false;
+        isRefreshing$.next(false);
         return next(
           req.clone({
             setHeaders: {
               Authorization: `Bearer ${access_token}`,
             },
           })
+        ).pipe(
+          tap(() => {
+            isRefreshing$.next(false);
+          })
         );
       })
     );
   }
 
-  return next(
-    req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${authService.token}`,
-      },
+  if (req.url.includes('refresh')) {
+    return next(
+      req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${authService.token}`,
+        },
+      })
+    );
+  }
+
+  return isRefreshing$.pipe(
+    filter(isRefreshing => !isRefreshing),
+    switchMap(() => {
+      return next(
+        req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${authService.token}`,
+          },
+        })
+      );
     })
   );
+
+  // return next(
+  //   req.clone({
+  //     setHeaders: {
+  //       Authorization: `Bearer ${authService.token}`,
+  //     },
+  //   })
+  // );
 };
